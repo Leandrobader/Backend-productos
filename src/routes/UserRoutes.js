@@ -3,10 +3,21 @@ const UserController=require("../controllers/userController");
 const UserRoutes=(base, app)=>{
 
     const controller = new UserController();
-    app.post(`${base}/create`, async(req,res,next)=>{
+    app.post(`${base}/create-admin`, async(req,res,next)=>{
         try {
-            const {email, password, role} = req.body;
-            await controller.CreateNewUser(email, password, role);
+            const {email, password} = req.body;
+            await controller.CreateNewAdmin(email, password);
+            return res.status(201).json({message: "Exito al crear el usuario"})
+        } catch (error) {
+            console.error("Error al crear un nuevo usuario-->", error);
+            return res.status(500).json({message: "ocurrio un error al crear el usuario"})
+        }
+    })
+
+    app.post(`${base}`, async(req,res,next)=>{
+        try {
+            const {email, password} = req.body;
+            await controller.CreateNewUser(email, password);
             return res.status(201).json({message: "Exito al crear el usuario"})
         } catch (error) {
             console.error("Error al crear un nuevo usuario-->", error);
