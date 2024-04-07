@@ -9,4 +9,28 @@ function ValidatePassword(password){
     return regexPassword.test(password);
 }
 
-module.exports={ValidateEmail, ValidatePassword};
+function ValidateTitle(title){
+    if(title.length >= 4 && title.length <= 20){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function ValidateDescription(description){
+    if(description.length >= 4 && description.length <= 200){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function ValidateCategory(category){
+    if(category !== undefined){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+module.exports={ValidateEmail, ValidatePassword, ValidateTitle, ValidateDescription, ValidateCategory};
