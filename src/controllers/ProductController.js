@@ -19,10 +19,27 @@ class ProductController{
         }
     };
 
-    async GetAllProducts(){
+    async GetAllProducts(filtro, busqueda){
         try {
-            const products = await ProductModel.find();
-            return products;
+            let finalResponse =[];
+            let query ={};
+            if(filtro !== undefined){
+                query["category"]=filtro;
+            };
+            if(busqueda !== undefined){
+                query["title"]={$regex:busqueda, $options:"i"}; //con lo que le pasemos en el campo title, atravez de la variable busqueda nos crea una regex y con el options i realiza un includes, osea busca todo lo que lo incluya
+            }
+
+            console.log("###QUERY-->",JSON.stringify(query));
+            /*if(filtro === undefined){
+                finalResponse= await ProductModel.find();
+            }else{
+                finalResponse = await ProductModel.find({
+                    category: filtro
+                });
+            }*/
+            finalResponse=await ProductModel.find(query);
+            return finalResponse;
         } catch (error) {
             throw error;
         }
