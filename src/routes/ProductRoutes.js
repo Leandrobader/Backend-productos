@@ -14,6 +14,16 @@ const ProductRoutes=(base, app)=>{
             console.error("Error al crear un producto =>", error);
             return res.status(500).json({message:"ocurrio un error al intentar crear un producto"})
         }
+    });
+
+    app.get(`${base}/`, async(req,res)=>{
+        try {
+            const response = await controller.GetAllProducts();
+            return res.status(200).json(response)
+        } catch (error) {
+            console.error("Error al obtener todos los productos => ", error);
+            return res.status(500).json({message: "Ocurrio un error al intentar obtener los productos"});
+        }
     })
 }
 
