@@ -2,20 +2,28 @@ const express=require("express"); //es la forma de importar y exportar paquetes 
 const cors = require("cors");
 const morgan = require("morgan");
 const path=require("path");
-
-//CREAR UNA INSTANCIA DE EXPRESS
+const databaseConnection= require("./databaseConnection.js")
+const UserRoutes = require("./routes/UserRoutes.js")
+const ProductRoutes = require("./routes/ProductRoutes.js")
+//-----------------INICIO DE CONFIGURACIONES INICIALES------------------
+//CREAR UNA INSTANCIA DE EXPRESS. LO INICIALIZAMOS
 const app=express();//tenemos una instancia de express
 
-//CONFIGURAMOS EL ACCESO A LAS VARIABLES DE ENTORNO
+
+//CONFIGURAMOS EL ACCESO A LAS VARIABLES DE ENTORNO.
 require('dotenv').config()
 console.log(process.env.PORT)
 
+//CONEXION A LA BASE DE DATOS
+databaseConnection()
+
 
 //SE CONFIGURA EL PUERTO DONDE SE VA A EJECUTAR NUESTRO SERVIDOR-BACKEND
-app.set("port", process.env.PORT || 9001);
+app.set("port", process.env.PORT || 9001);//UTILIZA EL PUERTO SETEADO EN LA VARIABLE DE ENTORNO Y SI NO ESTA SETEADO USA EL PUERTO 9001
 
-//PONEMOS A ESCUCHAR EN UN PUERTO A NUESTRO BACKEND
+//PONEMOS A ESCUCHAR EN UN PUERTO A NUESTRO BACKEND. DE ESTA MANERA NOS QUEDA ESCUCHANDO Y NO MUERE EL PROCESO
 app.listen(app.get("port"), ()=>{console.log(`BACKEND PRODUCTS LISTENING IN PORT ${app.get("port")}`);});
+//-----------------FIN DE CONFIGURACIONES INICIALES-------------------
 
 //MIDDLEWARES: configuraciones extras del backend que se ejecutan antes de las rutas
 //1- Middelwares nativos de express
@@ -50,5 +58,8 @@ app.get("/test", async(req, res, next)=>{
         next(error);
     }
 })
+
+UserRoutes("/users", app);
+ProductRoutes("/products", app);
 
 
