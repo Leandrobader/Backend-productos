@@ -62,6 +62,14 @@ class ProductController{
             throw error
         }
     }
+
+    async DeleteProduct(id){
+        try {
+            await ProductModel.findByIdAndDelete(id);
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 
