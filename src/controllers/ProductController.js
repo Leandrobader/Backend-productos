@@ -44,6 +44,24 @@ class ProductController{
             throw error;
         }
     }
+
+    async GetById(id){
+        try {
+            const product = await ProductModel.findById(id);
+            return product;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async UpdateProduct(product){
+        try {
+            //AQUI TENDRIAMOS QUE APLICAR LAS MISMAS VALIDACIONES QUE EN EL CREATE
+            await ProductModel.findByIdAndUpdate(product._id, product);
+        } catch (error) {
+            throw error
+        }
+    }
 }
 
 
