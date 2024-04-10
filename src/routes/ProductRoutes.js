@@ -50,6 +50,17 @@ const ProductRoutes=(base, app)=>{
             return res.status(500).json({message: "Ocurrio un error al intentar actualizar el producto"});
         }
     })
+
+    app.delete(`${base}/:id`, Auth.isAuth, Auth.isAdmin, async(req,res)=>{
+        try {
+            const {id}=req.params;
+            await controller.DeleteProduct(id);
+            return res.status(200).json({message: "EXITO al eliminar"})
+        } catch (error) {
+            console.error(`Error al eliminar un producto ==>`, error);
+            return res.status(500).json({message: "Ocurrio un error al intentar eliminar el producto"});
+        }
+    })
 }
 
 module.exports = ProductRoutes;
